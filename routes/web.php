@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'PostController@Index')->name('home');
+Route::get('post/{slug}', 'PostController@View')->name('posts.view');
 
 Auth::routes(['register' => false]);
 
 Route::middleware('auth')->group(function(){
 	Route::get('posts/draft', 'PostController@Draft')->name('posts.draft');
 	Route::get('posts/publish/{id}', 'PostController@Publish')->name('posts.publish');
-	Route::get('post/{slug}', 'PostController@View')->name('posts.view');
 	Route::get('posts/create', 'PostController@Create')->name('posts.create');
 	Route::post('posts/store', 'PostController@Store')->name('posts.store');
 	Route::get('posts/edit/{id}', 'PostController@Edit')->name('posts.edit');
