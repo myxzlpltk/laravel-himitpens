@@ -44,6 +44,11 @@ class Post extends Model{
 				Storage::disk('public')->put('posts/thumbs/'.$post->photo, $image->encode('jpg', 80));
 			}
 		});
+
+		static::deleting(function($post){
+			Storage::disk('public')->delete('posts/'.$post->getOriginal('photo'));
+			Storage::disk('public')->delete('posts/thumbs/'.$post->getOriginal('photo'));
+		});
 	}
 
 	public function user(){

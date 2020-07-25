@@ -54,6 +54,12 @@ class PostController extends Controller{
 	}
 
 	public function Delete(Request $request, $id){
+		$post = Post::findOrFail($id);
+		$this->authorize('delete', $post);
+
+		$post->delete();
+
+		return redirect()->route('home')->with(['status' => 'Berita berhasil dihapus.']);
 	}
 
 }
