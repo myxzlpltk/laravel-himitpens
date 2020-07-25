@@ -27,7 +27,8 @@ class PostController extends Controller{
 	}
 
 	public function Publish(Request $request, $id){
-		$post = Post::whereNull('published_at')->findOrFail($id);
+		$post = Post::findOrFail($id);
+		$this->authorize('publish', $post);
 
 		$post->published_at = now();
 		$post->update();

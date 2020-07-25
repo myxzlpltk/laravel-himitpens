@@ -31,15 +31,19 @@
 						</h5>
 						<p class="card-text">{{ $post->excerpt }}</p>
 					</div>
-					@if(Auth::check())
+					@can('belong', $post)
 					<div class="card-footer bg-white d-flex justify-content-between align-items-center">
 						<div class="btn-group">
+							@can('update', $post)
 							<a href="{{ route('posts.edit', $post->id) }}" class="card-link">Edit</a>
+							@endcan
+							@can('delete', $post)
 							<a href="{{ route('posts.delete', $post->id) }}" class="card-link" onclick="return window.confirm('Kamu akan menghapus artikel ini. Apakah anda yakin?')">Hapus</a>
+							@endcan
 						</div>
 						<small class="text-muted"></small>
 					</div>
-					@endif
+					@endcan
 				</div>
 			</div>
 			@empty
