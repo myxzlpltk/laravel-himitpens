@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller{
 
@@ -47,7 +49,30 @@ class PostController extends Controller{
 		return view('posts.view', ['post' => $post]);
 	}
 
-	public function Create(Request $request, $id){
+	public function Create(Request $request){
+		$this->authorize('create', Post::class);
+
+		return view('posts.create');
+	}
+
+	public function Store(Request $request){
+		$this->validate($request, [
+			'foto' => 'required|image|max:2048',
+			'title' => 'required|string|max:255|unique:App\Post',
+			'content' => 'required|string'
+		]);
+
+		$foto = Storage::disk('public')->put('posts', $request->file('foto'));
+
+		$post = new Post;
+		$post->user_id = $request->user()->id;
+		$post->title = trim($request->title);
+		$post->content = trim(Purifier::clean($request->content));
+		$post->photo = basename($foto);
+		$post->published_at = ($request->submit == 'publish' ? now() : NULL);
+		$post->save();
+
+		return redirect()->route('posts.view', $post->slug)->with(['status' => 'Berita berhasil diunggah.']);
 	}
 
 	public function Edit(Request $request, $id){
