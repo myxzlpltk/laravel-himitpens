@@ -80,8 +80,10 @@
 
         <main class="py-4">
             @if (session('status'))
-            <div class="alert alert-success mb-4" role="alert">
-                {{ session('status') }}
+            <div class="container">
+                <div class="alert alert-success mb-4" role="alert">
+                    {{ session('status') }}
+                </div>
             </div>
             @endif
 
