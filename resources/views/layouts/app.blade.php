@@ -18,6 +18,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style type="text/css">
+        .post .embed-responsive .card-img-top {
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -78,7 +84,7 @@
                 {{ session('status') }}
             </div>
             @endif
-            
+
             @yield('content')
         </main>
     </div>

@@ -20,8 +20,10 @@
 		<div class="row">
 			@forelse($posts as $post)
 			<div class="col-md-4 d-flex align-items-stretch">
-				<div class="card mb-4 box-shadow">
-					<img class="card-img-top" src="{{ Storage::disk('public')->url('posts/thumbs/'.$post->photo) }}" alt="Card image cap">
+				<div class="card mb-4 box-shadow post">
+					<div class="embed-responsive embed-responsive-16by9">
+						<img class="card-img-top embed-responsive-item" src="{{ Storage::disk('public')->url('posts/thumbs/'.$post->photo) }}" alt="Thumbnail">
+					</div>
 					<div class="card-body">
 						<small>{{ is_null($post->published_at) ? 'Draf' :$post->published_at->format('d F Y') }} | {{ $post->user->name }}</small>
 						<h5 class="card-title">
