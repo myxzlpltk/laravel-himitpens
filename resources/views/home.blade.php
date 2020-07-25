@@ -21,7 +21,7 @@
 			@forelse($posts as $post)
 			<div class="col-md-4 d-flex align-items-stretch">
 				<div class="card mb-4 box-shadow">
-					<img class="card-img-top" src="{{ Storage::disk('public')->url('posts/'.$post->photo) }}" alt="Card image cap">
+					<img class="card-img-top" src="{{ Storage::disk('public')->url('posts/thumbs/'.$post->photo) }}" alt="Card image cap">
 					<div class="card-body">
 						<small>{{ is_null($post->published_at) ? 'Draf' :$post->published_at->format('d F Y') }} | {{ $post->user->name }}</small>
 						<h5 class="card-title">

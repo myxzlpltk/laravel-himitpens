@@ -3,7 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class Post extends Model{
 
@@ -16,11 +18,30 @@ class Post extends Model{
 
 		static::creating(function($post){
 			$post->slug = Str::slug($post->title);
+
+			$image = Image::make(Storage::disk('public')->get('posts/'.$post->photo));
+			$image->resize(300, 300, function($constraint){
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+			Storage::disk('public')->put('posts/thumbs/'.$post->photo, $image->encode('jpg', 80));
 		});
 
 		static::updating(function($post){
 			if($post->isDirty('title')){
 				$post->slug = Str::slug($post->title);
+			}
+
+			if($post->isDirty('photo')){
+				Storage::disk('public')->delete('posts/'.$post->getOriginal('photo'));
+				Storage::disk('public')->delete('posts/thumbs/'.$post->getOriginal('photo'));
+
+				$image = Image::make(Storage::disk('public')->get('posts/'.$post->photo));
+				$image->resize(300, 300, function($constraint){
+					$constraint->aspectRatio();
+					$constraint->upsize();
+				});
+				Storage::disk('public')->put('posts/thumbs/'.$post->photo, $image->encode('jpg', 80));
 			}
 		});
 	}
