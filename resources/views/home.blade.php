@@ -17,10 +17,10 @@
 @endif
 <div class="album py-5 bg-light">
 	<div class="container">
-		<div class="row">
+		<div class="row justify-content-center">
 			@forelse($posts as $post)
-			<div class="col-md-4 d-flex align-items-stretch">
-				<div class="card mb-4 box-shadow post">
+			<div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
+				<div class="card mb-4 box-shadow post w-100">
 					<div class="embed-responsive embed-responsive-16by9">
 						<img class="card-img-top embed-responsive-item" src="{{ Storage::disk('public')->url('posts/thumbs/'.$post->photo) }}" alt="Thumbnail">
 					</div>

@@ -14,7 +14,7 @@ class PostController extends Controller{
 		$posts = Post::with('user')
 			->whereNotNull('published_at')
 			->orderByDesc('published_at')
-			->paginate(3);
+			->paginate(12);
 
 		return view('home', ['posts' => $posts]);
 	}
@@ -23,7 +23,7 @@ class PostController extends Controller{
 		$posts = Post::with('user')
 			->whereNull('published_at')
 			->orderByDesc('created_at')
-			->paginate(3);
+			->paginate(12);
 
 		return view('draft', ['posts' => $posts]);
 	}

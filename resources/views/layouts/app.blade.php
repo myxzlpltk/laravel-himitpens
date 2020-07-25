@@ -21,7 +21,7 @@
 
     <style type="text/css">
         .post .embed-responsive .card-img-top {
-            object-fit: cover;
+            /*object-fit: cover;*/
         }
     </style>
 </head>
