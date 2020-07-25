@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@Index')->name('home');
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function(){
+	Route::get('posts/draft', 'PostController@Draft')->name('posts.draft');
+	Route::get('posts/publish/{id}', 'PostController@Publish')->name('posts.publish');
+	Route::get('post/{slug}', 'PostController@View')->name('posts.view');
+	Route::get('posts/create', 'PostController@Create')->name('posts.create');
+	Route::get('posts/edit/{id}', 'PostController@Edit')->name('posts.edit');
+	Route::get('posts/delete/{id}', 'PostController@Delete')->name('posts.delete');
+});

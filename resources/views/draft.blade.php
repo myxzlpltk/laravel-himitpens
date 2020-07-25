@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda')
+@section('title', 'Draf artikel')
 
 @section('content')
-@if(Auth::check())
+@if (session('status'))
+	<div class="alert alert-success mb-4" role="alert">
+		{{ session('status') }}
+	</div>
+@endif
 <section class="text-center">
 	<div class="container">
 		<h1 class="jumbotron-heading">{{ Auth::user()->name }}</h1>
 		<p class="lead text-muted">Kamu sedang dalam mode admin. Kamu berhak untuk mengelola semua artikel disini.</p>
-		<div>
-			<a href="{{ route('posts.create') }}" class="btn btn-primary my-2">Buat artikel baru</a>
-			<a href="{{ route('posts.draft') }}" class="btn btn-secondary my-2">Draf</a>
-		</div>
+		<a href="{{ route('home') }}" class="btn btn-secondary my-2">Kembali</a>
 	</div>
 </section>
-@endif
 <div class="album py-5 bg-light">
 	<div class="container">
 		<div class="row">
@@ -29,15 +29,14 @@
 						</h5>
 						<p class="card-text">{{ $post->excerpt }}</p>
 					</div>
-					@if(Auth::check())
 					<div class="card-footer bg-white d-flex justify-content-between align-items-center">
 						<div class="btn-group">
+							<a href="{{ route('posts.publish', $post->id) }}" class="card-link" onclick="return window.confirm('Kamu akan mempublis artikel ini. Apakah anda yakin?')">Publis</a>
 							<a href="{{ route('posts.edit', $post->id) }}" class="card-link">Edit</a>
 							<a href="{{ route('posts.delete', $post->id) }}" class="card-link" onclick="return window.confirm('Kamu akan menghapus artikel ini. Apakah anda yakin?')">Hapus</a>
 						</div>
 						<small class="text-muted"></small>
 					</div>
-					@endif
 				</div>
 			</div>
 			@empty

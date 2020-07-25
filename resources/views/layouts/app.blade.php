@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -73,6 +73,12 @@
         </nav>
 
         <main class="py-4">
+            @if (session('status'))
+            <div class="alert alert-success mb-4" role="alert">
+                {{ session('status') }}
+            </div>
+            @endif
+            
             @yield('content')
         </main>
     </div>
