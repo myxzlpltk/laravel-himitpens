@@ -76,6 +76,32 @@ class PostController extends Controller{
 	}
 
 	public function Edit(Request $request, $id){
+		$post = Post::findOrFail($id);
+		$this->authorize('update', $post);
+
+		return view('posts.edit', ['post' => $post]);
+	}
+
+	public function Update(Request $request, $id){
+		$post = Post::findOrFail($id);
+		$this->authorize('update', $post);
+
+		$this->validate($request, [
+			'foto' => 'nullable|image|max:2048',
+			'title' => 'required|string|max:255|unique:App\Post,title,'.$post->id,
+			'content' => 'required|string'
+		]);
+
+		if($request->file('foto') != NULL){
+			$foto = Storage::disk('public')->put('posts', $request->file('foto'));
+			$post->photo = basename($foto);
+		}
+
+		$post->title = trim($request->title);
+		$post->content = trim(Purifier::clean($request->content));
+		$post->update();
+
+		return redirect()->route('posts.view', $post->slug)->with(['status' => 'Berita berhasil diperbarui.']);
 	}
 
 	public function Delete(Request $request, $id){
