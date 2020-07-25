@@ -26,6 +26,12 @@ class PostController extends Controller{
 	}
 
 	public function Publish(Request $request, $id){
+		$post = Post::whereNull('published_at')->findOrFail($id);
+
+		$post->published_at = now();
+		$post->update();
+
+		return redirect()->route('posts.view', $post->slug)->with(['status' => 'Berita berhasil dipublis.']);
 	}
 
 	public function View(Request $request, $id){
