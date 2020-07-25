@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller{
 
@@ -34,7 +35,15 @@ class PostController extends Controller{
 		return redirect()->route('posts.view', $post->slug)->with(['status' => 'Berita berhasil dipublis.']);
 	}
 
-	public function View(Request $request, $id){
+	public function View(Request $request, $slug){
+		if(Auth::check()){
+			$post = Post::whereSlug($slug)->firstOrFail();
+		}
+		else{
+			$post = Post::whereNotNull('published_at')->whereSlug($slug)->firstOrFail();
+		}
+
+		return view('posts.view', ['post' => $post]);
 	}
 
 	public function Create(Request $request, $id){
@@ -45,5 +54,5 @@ class PostController extends Controller{
 
 	public function Delete(Request $request, $id){
 	}
-	
+
 }

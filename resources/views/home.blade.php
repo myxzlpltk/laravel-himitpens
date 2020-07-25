@@ -27,7 +27,7 @@
 					<div class="card-body">
 						<small>{{ is_null($post->published_at) ? 'Draf' :$post->published_at->format('d F Y') }} | {{ $post->user->name }}</small>
 						<h5 class="card-title">
-							<a href="">{{ $post->title }}</a>
+							<a href="{{ route('posts.view', $post->slug) }}">{{ $post->title }}</a>
 						</h5>
 						<p class="card-text">{{ $post->excerpt }}</p>
 					</div>
